@@ -51,6 +51,7 @@ jobs:
         git config --global user.name "skadbstj12" 
         git add lezincomics_*.json
         git add naverwebtoon_*.json
+        git add bufftoon_*.json
         git commit -m "차트 수집 완료"
 
     - name: push
