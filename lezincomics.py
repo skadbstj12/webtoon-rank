@@ -9,6 +9,15 @@ from bs4 import BeautifulSoup
 import time
 import json
 from datetime import datetime
+import json
+try:
+    # 예제: 데이터 처리 로직
+    data = {"example": "data"}
+    with open('data.json', 'w') as f:
+        json.dump(data, f)
+except Exception as e:
+    print(f"Error occurred: {e}")
+
 
 # 현재 날짜 가져오기
 current_date = datetime.now().strftime("%Y-%m-%d")
