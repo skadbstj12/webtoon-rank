@@ -40,26 +40,10 @@ jobs:
         pip install selenium
         pip install webdriver_manager
       
-   # 기존 workflow 파일의 내용...
-
     - name: run file
       run: |
         python3 lezincomics.py
         python3 naverwebtoon.py
-
-    # 크롤링 작업이 모두 완료된 후에 실행되어야 함
-    - name: Save data to JSON file
-      run: |
-        import json
-
-        try:
-            # 데이터 처리 로직
-            data = {"example": "data"}
-            with open('data.json', 'w') as f:
-                json.dump(data, f)
-            echo "Data saved to data.json"
-        except Exception as e:
-            echo "Error occurred: $e"
 
     - name: commits
       run : |
@@ -74,7 +58,3 @@ jobs:
       with:
         branch: "main"
         github_token: $
-
-
-
-        
