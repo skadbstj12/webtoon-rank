@@ -7,12 +7,23 @@ import json
 import time
 from datetime import datetime
 
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
 
 current_date = datetime.now().strftime("%Y-%m-%d")
 filename = f"naverwebtoon_{current_date}.json"
 
+# Chrome 서비스 설정
+service = ChromeService(ChromeDriverManager().install())
 
-options = webdriver.ChromeOptions()
+# Chrome 옵션 설정
+options = ChromeOptions()
+options.add_argument('--headless')
+
+# Chrome 시작
 browser = webdriver.Chrome(service=service, options=options)
 browser.get("https://comic.naver.com/webtoon")
 
