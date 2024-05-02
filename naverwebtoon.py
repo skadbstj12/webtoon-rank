@@ -13,7 +13,7 @@ filename = f"naverwebtoon_{current_date}.json"
 
 
 options = webdriver.ChromeOptions()
-browser = webdriver.Chrome(options=options)
+browser = webdriver.Chrome(service=service, options=options)
 browser.get("https://comic.naver.com/webtoon")
 
 WebDriverWait(browser, 10).until(
