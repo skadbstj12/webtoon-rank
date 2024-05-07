@@ -1,33 +1,30 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-import time
 import json
+import time
 from datetime import datetime
 
-# Chrome 옵션 설정
-options = Options()
-options.add_argument('--headless')  # headless 모드 활성화
-options.add_argument('--no-sandbox')  # 샌드박스 모드 비활성화
-options.add_argument('--disable-dev-shm-usage')  # /dev/shm 사용 제한
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
-# Chrome 드라이버 서비스 설정
+
+current_date = datetime.now().strftime("%Y-%m-%d")
+filename = f"toomics_{current_date}.json"
+
+# Chrome 서비스 설정
 service = ChromeService(ChromeDriverManager().install())
 
-# 드라이버 초기화
-driver = webdriver.Chrome(service=service, options=options)
-# 현재 날짜 가져오기
-current_date = datetime.now().strftime("%Y-%m-%d")
-filename = f"toonmics{current_date}.json"
+# Chrome 옵션 설정
+options = ChromeOptions()
+options.add_argument('--headless')
 
-# 웹 드라이버 초기화 및 페이지 로드
-options = webdriver.ChromeOptions()
-browser = webdriver.Chrome(options=options)
+# Chrome 시작
+browser = webdriver.Chrome(service=service, options=options)
 browser.get("https://www.toomics.com/webtoon/top100/type/monthly")
 
 # 페이지가 완전히 로드될 때까지 대기
