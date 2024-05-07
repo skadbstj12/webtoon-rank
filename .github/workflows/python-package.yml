@@ -42,6 +42,7 @@ jobs:
       
     - name: run file
       run: |
+        python3 lezincomics.py
         python3 naverwebtoon.py
         python3 bufftoon.py
         python3 toomics.py
@@ -53,6 +54,7 @@ jobs:
         git add naverwebtoon_*.json
         git add bufftoon_*.json
         git add toomics_*.json
+        git add lezincomics_*.json
         git commit -m "차트 수집 완료"
 
     - name: push
