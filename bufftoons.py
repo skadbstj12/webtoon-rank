@@ -46,7 +46,7 @@ while (time.time() - start_time) < max_time_limit:
 
 
 current_date = datetime.now().strftime("%Y-%m-%d")
-filename = f"lezincomics_{current_date}.json"
+filename = f"bufftoon_{current_date}.json"
 
 html_source_updated = driver.page_source
 soup = BeautifulSoup(html_source_updated, 'html.parser')
