@@ -44,6 +44,8 @@ jobs:
       run: |
         python3 lezincomics.py
         python3 naverwebtoon.py
+        python3 bufftoon.py
+        python3 toonmics.py
 
     - name: commits
       run : |
@@ -51,6 +53,8 @@ jobs:
         git config --global user.name "skadbstj12" 
         git add lezincomics_*.json
         git add naverwebtoon_*.json
+        git add bufftoon_*.json
+        git add toonmics_*.json
         git commit -m "차트 수집 완료"
 
     - name: push
