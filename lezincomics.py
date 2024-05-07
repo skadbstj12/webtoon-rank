@@ -1,23 +1,29 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.options import Options as ChromeOptions
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-import time
 import json
+import time
 from datetime import datetime
 
-# 현재 날짜 가져오기
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
+
 current_date = datetime.now().strftime("%Y-%m-%d")
 filename = f"lezincomics_{current_date}.json"
 
+# Chrome 서비스 설정
+service = ChromeService(ChromeDriverManager().install())
 
-#웹 드라이브 설치
+# Chrome 옵션 설정
 options = ChromeOptions()
-service = ChromeService(executable_path=ChromeDriverManager().install())
+options.add_argument('--headless')
+
+# Chrome 시작
 browser = webdriver.Chrome(service=service, options=options)
 browser.get("https://www.lezhin.com/ko/ranking/detail?genre=_all&type=realtime")
 
