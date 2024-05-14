@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 
 current_date = datetime.now().strftime("%Y-%m-%d")
-filename = f"{folder_path}/"naverwebtoon_{current_date}.json"
+filename = f"{folder_path}/naverwebtoon_{current_date}.json"
 
 # Chrome 서비스 설정
 service = ChromeService(ChromeDriverManager().install())
