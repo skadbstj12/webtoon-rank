@@ -17,9 +17,6 @@ current_date = datetime.now().strftime("%Y-%m-%d")
 folder_path = "toomics"
 filename = f"{folder_path}/toomics_{current_date}.json"
 
-# 폴더가 존재하지 않을 경우 생성
-os.makedirs(folder_path, exist_ok=True)
-
 # Chrome 서비스 설정
 service = ChromeService(ChromeDriverManager().install())
 
