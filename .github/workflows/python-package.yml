@@ -55,6 +55,7 @@ jobs:
         git add bufftoon/bufftoon_*.json
         git add toomics/toomics_*.json
         git add lezincomics/lezincomics_*.json
+        git add .
         git commit -m "차트 수집 완료"
 
     - name: push
