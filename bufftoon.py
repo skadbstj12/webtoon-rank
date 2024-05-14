@@ -48,7 +48,6 @@ current_date = datetime.now().strftime("%Y-%m-%d")
 folder_path = "bufftoon"
 filename = f"{folder_path}/bufftoon_{current_date}.json"
 
-os.makedirs(folder_path, exist_ok=True)
 
 
 html_source_updated = driver.page_source
