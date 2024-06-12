@@ -39,6 +39,7 @@ jobs:
         pip install pandas
         pip install selenium
         pip install webdriver_manager
+        pip install --upgrade selenium webdriver-manager
       
     - name: run file
       run: |
