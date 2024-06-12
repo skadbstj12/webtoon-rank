@@ -6,11 +6,18 @@ from bs4 import BeautifulSoup
 import json
 import time
 from datetime import datetime
-
-from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+
+# Chrome 옵션 설정
+options = Options()
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--headless')  # 필요시 헤드리스 모드 사용
+options.add_argument('--disable-gpu')
+options.add_argument('--remote-debugging-port=9222')
+
 # 현재 날짜 설정
 current_date = datetime.now().strftime("%Y-%m-%d")
 folder_path = "naverwebtoon"
@@ -21,37 +28,10 @@ service = ChromeService(ChromeDriverManager().install())
 browser = webdriver.Chrome(service=service, options=options)
 browser.get("https://comic.naver.com/webtoon")
 
-# Chrome 옵션 설정
-options = Options()
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
-options.add_argument('--headless')  # 필요시 헤드리스 모드 사용
-options.add_argument('--disable-gpu')
-options.add_argument('--remote-debugging-port=9222')
-
-
-
 # 페이지 요소 로딩 대기
 WebDriverWait(browser, 10).until(
     EC.presence_of_all_elements_located((By.CLASS_NAME, "component_wrap"))
 )
-
-# # 페이지 스크롤
-# scroll_pause_time = 1  
-# pixels_to_scroll = 1000 
-# max_time_limit = 40  
-# start_time = time.time()  
-
-# def scroll_down():
-#     browser.execute_script(f"window.scrollBy(0, {pixels_to_scroll});")
-
-# while (time.time() - start_time) < max_time_limit:
-#     scroll_down()
-#     time.sleep(scroll_pause_time)
-
-#     new_height = browser.execute_script("return document.body.scrollHeight")
-#     if new_height == browser.execute_script("return window.pageYOffset + window.innerHeight"):
-#         break  
 
 # HTML 소스 코드 가져오기 및 파싱
 html_source_updated = browser.page_source
@@ -62,8 +42,7 @@ webtoon_list = soup.find_all('li', class_='DailyListItem__item--LP6_T')
 
 for index in range(len(webtoon_list)):
     try:
-
-         # 각 웹툰 항목 클릭 전, Poster__icon_bullet--D4lUU 클래스 확인
+        # 각 웹툰 항목 클릭 전, Poster__icon_bullet--D4lUU 클래스 확인
         webtoons = browser.find_elements(By.CLASS_NAME, 'DailyListItem__item--LP6_T')
         bullet_icon = webtoons[index].find_elements(By.CLASS_NAME, 'Poster__icon_bullet--D4lUU')
         
