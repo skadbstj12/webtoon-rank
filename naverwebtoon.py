@@ -8,10 +8,9 @@ import time
 from datetime import datetime
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-
 # 현재 날짜 설정
 current_date = datetime.now().strftime("%Y-%m-%d")
 folder_path = "naverwebtoon"
@@ -19,6 +18,8 @@ filename = f"{folder_path}/naverwebtoon_{current_date}.json"
 
 # Chrome 서비스 설정
 service = ChromeService(ChromeDriverManager().install())
+browser = webdriver.Chrome(service=service, options=options)
+browser.get("https://comic.naver.com/webtoon")
 
 # Chrome 옵션 설정
 options = Options()
@@ -28,10 +29,7 @@ options.add_argument('--headless')  # 필요시 헤드리스 모드 사용
 options.add_argument('--disable-gpu')
 options.add_argument('--remote-debugging-port=9222')
 
-# Chrome 시작
-service = Service(ChromeDriverManager().install())
-browser = webdriver.Chrome(service=service, options=options)
-browser.get("https://comic.naver.com/webtoon")
+
 
 # 페이지 요소 로딩 대기
 WebDriverWait(browser, 10).until(
