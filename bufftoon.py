@@ -8,18 +8,26 @@ from datetime import datetime
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+import os
 
 # 현재 날짜 설정
 current_date = datetime.now().strftime("%Y-%m-%d")
 folder_path = "bufftoon"
 filename = f"{folder_path}/bufftoon_{current_date}.json"
 
+# 폴더가 없으면 생성
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
+
 # Chrome 서비스 설정
 service = ChromeService(ChromeDriverManager().install())
 
 # Chrome 옵션 설정
 options = ChromeOptions()
-# options.add_argument('--headless')  # 이 줄을 주석 처리하여 headless 모드를 끕니다.
+options.add_argument('--headless')  # headless 모드로 설정
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
 # Chrome 시작
 browser = webdriver.Chrome(service=service, options=options)
@@ -35,13 +43,11 @@ try:
     )
 
     # 각 split-item 요소에 대해 반복
-    for index in range(len(browser.find_elements(By.CLASS_NAME, "split-item"))):
+    webtoon_elements = browser.find_elements(By.CLASS_NAME, "split-item")
+    for index, webtoon_element in enumerate(webtoon_elements):
         try:
-            # 모든 split-item 요소들을 다시 가져오기 (다시 로드된 페이지에서)
-            webtoon_elements = browser.find_elements(By.CLASS_NAME, "split-item")
-            
             # 현재 요소 클릭
-            webtoon_elements[index].click()
+            webtoon_element.click()
             
             # 새로운 페이지 로딩 대기
             WebDriverWait(browser, 10).until(
@@ -87,6 +93,10 @@ try:
             )
         except Exception as e:
             print(f"Error processing item {index}: {e}")
+            browser.back()  # 오류 발생 시 이전 페이지로 돌아가기
+            WebDriverWait(browser, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "split-item"))
+            )
 except Exception as e:
     print(f"Error: {e}")
 finally:
