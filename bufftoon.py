@@ -41,13 +41,15 @@ try:
     WebDriverWait(browser, 10).until(
         EC.presence_of_all_elements_located((By.CLASS_NAME, "split-item"))
     )
+    webtoon_elements = browser.find_elements(By.CLASS_NAME, "split-item")
 
     # 각 split-item 요소에 대해 반복
-    webtoon_elements = browser.find_elements(By.CLASS_NAME, "split-item")
     for index, webtoon_element in enumerate(webtoon_elements):
         try:
-            # 현재 요소 클릭
-            webtoon_element.click()
+            # 새로운 탭 열기
+            browser.execute_script("window.open('');")
+            browser.switch_to.window(browser.window_handles[1])
+            browser.get(webtoon_element.find_element(By.TAG_NAME, 'a').get_attribute('href'))
             
             # 새로운 페이지 로딩 대기
             WebDriverWait(browser, 10).until(
@@ -84,19 +86,17 @@ try:
                 'url': url
             })
             
-            # 이전 페이지로 돌아가기
-            browser.back()
+            # 현재 탭 닫기
+            browser.close()
+            # 원래 탭으로 돌아가기
+            browser.switch_to.window(browser.window_handles[0])
             
-            # 다음 split-item이 로드될 때까지 대기
-            WebDriverWait(browser, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "split-item"))
-            )
         except Exception as e:
             print(f"Error processing item {index}: {e}")
-            browser.back()  # 오류 발생 시 이전 페이지로 돌아가기
-            WebDriverWait(browser, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "split-item"))
-            )
+            # 현재 탭 닫기
+            browser.close()
+            # 원래 탭으로 돌아가기
+            browser.switch_to.window(browser.window_handles[0])
 except Exception as e:
     print(f"Error: {e}")
 finally:
